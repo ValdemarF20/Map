@@ -1,0 +1,8 @@
+name: Map
+version: @version@
+main: net.arcticforestmc.map.Map
+commands:
+  map:
+    description: Sends who made the world to the player and which world the player is in.
+  mapreload:
+    description: Reloads the config.yml file
