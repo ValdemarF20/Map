@@ -15,7 +15,6 @@ public class ConfigReload implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String Labels, String[] args){
         yaml.reload();
 
-        System.out.println("Map config has been reloaded!");
         return true;
     }
 }
