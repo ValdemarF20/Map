@@ -1,5 +1,5 @@
-World: 'world'
-Description:
-  - 'Hello there!'
-  - 'This is just a testing world.'
-Creator: 'Valdemar'
+world:
+  description:
+    - TestResource
+    - TestResourceTwo
+  creator: Valdemar

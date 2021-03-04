@@ -2,24 +2,26 @@ package net.arcticforestmc.map;
 
 import net.arcticforestmc.map.command.ConfigReload;
 import net.arcticforestmc.map.command.MapCommand;
-import net.arcticforestmc.map.libs.DataHandler;
+import net.arcticforestmc.map.libs.Yaml;
+import net.arcticforestmc.map.libs.YamlFactory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Map extends JavaPlugin {
-    public static DataHandler dataHandler;
+    protected static Yaml yaml;
+
     @Override
     public void onEnable() {
         System.out.println("Map plugin has been enabled!");
+        yaml = new YamlFactory(JavaPlugin.getPlugin(Map.class)).setDefaultPathways();
+        yaml.reload();
 
-        dataHandler = new DataHandler(this);
-        dataHandler.createDirectoryIfMissing("plugins/ArcticValentines");
-        dataHandler.copyTemplateIfMissing("valentinesKey.yml", "plugins/ArcticValentines/valentinesKey.yml");
-        dataHandler.addFile("key", "plugins/ArcticValentines/valentinesKey.yml");
-        dataHandler.loadFileYAML("key");
-
-        getCommand("map").setExecutor(new MapCommand(this));
-        getCommand("mapreload").setExecutor(new ConfigReload(this));
+        getCommand("map").setExecutor(new MapCommand(this, yaml));
+        getCommand("mapreload").setExecutor(new ConfigReload(yaml));
 
         saveDefaultConfig();
+    }
+
+    public static Yaml getYamlConfig() {
+        return yaml;
     }
 }
