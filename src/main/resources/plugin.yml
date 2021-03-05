@@ -1,6 +1,8 @@
 name: Map
 version: @version@
 main: net.arcticforestmc.map.Map
+description: Tells the player which map the player is in, who made it and the creator of the map.
+
 commands:
   map:
     description: Sends who made the world to the player and which world the player is in.
