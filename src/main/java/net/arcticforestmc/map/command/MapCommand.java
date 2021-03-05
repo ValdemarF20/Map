@@ -36,28 +36,31 @@ public class MapCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String Labels, String[] args){
         if(!(sender instanceof Player)){return true;}
 
+        //Gets the player and the world
         Player player = (Player) sender;
-
         String world = player.getWorld().getName();
 
+        //Gets the information from the config.yml file
         ConfigurationSection section = (yaml.getConfigurationSection(world) != null) ? yaml.getConfigurationSection(world) : yaml.createSection(world);
         String creator = section.getString("creator");
         List<String> text = section.getStringList("description");
 
+        //Makes sure that creator will not be null
         if (creator == null) {
             section.set("creator", "UNKNOWN");
         }
 
+        //Makes sure that text will not be null
         if (text == null || text.size() == 0) {
             section.set("description", new ArrayList<String>(){{
                 add("REPLACE_ME");
             }});
         }
 
-        assert text != null;
-
         player.sendMessage(ChatColor.DARK_GREEN + world);
 
+        //Makes sure that text is not null
+        assert text != null;
         StringBuilder sb = new StringBuilder();
         text.forEach(a -> sb.append(ChatColor.GREEN)
                 .append(a)
@@ -65,19 +68,20 @@ public class MapCommand implements CommandExecutor {
 
         player.sendMessage(sb.toString());
 
-        assert creator != null || !creator.equals("UNKNOWN");
-        Player uuidToOnlineCreator = Bukkit.getPlayer(UUID.fromString(creator));
+        //Sends the value of creator to the player, depending on what the value is in the config.
+        assert creator != null;
+        if(creator.equals("UNKNOWN")){
+            player.sendMessage(ChatColor.RED + "There is no set creator of this world");
+        }else {
+            Player uuidToOnlineCreator = Bukkit.getPlayer(UUID.fromString(creator));
 
-        if (uuidToOnlineCreator == null) {
-            OfflinePlayer uuidToOfflineCreator = Bukkit.getOfflinePlayer(UUID.fromString(creator));
-            player.sendMessage(ChatColor.DARK_GREEN + uuidToOfflineCreator.getName().toString());
-        } else {
-            player.sendMessage(ChatColor.DARK_GREEN + uuidToOnlineCreator.getName().toString());
+            if (uuidToOnlineCreator == null) {
+                OfflinePlayer uuidToOfflineCreator = Bukkit.getOfflinePlayer(UUID.fromString(creator));
+                player.sendMessage(ChatColor.DARK_GREEN + uuidToOfflineCreator.getName().toString());
+            } else {
+                player.sendMessage(ChatColor.DARK_GREEN + uuidToOnlineCreator.getName().toString());
+            }
         }
-
-
-
-        //player.sendMessage(ChatColor.DARK_GREEN + getName(creator));
 
         try {
             yaml.save();
@@ -86,24 +90,5 @@ public class MapCommand implements CommandExecutor {
         }
 
         return true;
-    }
-    public static String getName(String uuid) {
-        String url = "https://api.mojang.com/user/profiles/"+uuid.replace("-", "")+"/names";
-
-        String nameJson = null;
-
-
-        try {
-            nameJson = IOUtils.toString(new URL(url), Charset.defaultCharset());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        JSONArray arr = new JSONArray(nameJson);
-        JSONObject latestNameArr = arr.getJSONObject(arr.length()-1);
-        String latestName = (String) latestNameArr.get("name");
-        return(latestName);
-
     }
 }
