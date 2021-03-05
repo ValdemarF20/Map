@@ -1,6 +1,5 @@
 package net.arcticforestmc.map.command;
 
-import net.arcticforestmc.map.Map;
 import net.arcticforestmc.map.libs.Yaml;
 
 import org.bukkit.Bukkit;
@@ -18,14 +17,10 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class MapCommand implements CommandExecutor {
-    private final Map main;
     private final Yaml yaml;
-    private final UUID uuid;
 
-    public MapCommand(Map main, Yaml yaml, UUID uuid){
-        this.main = main;
+    public MapCommand(Yaml yaml){
         this.yaml = yaml;
-        this.uuid = uuid;
     }
 
     public boolean onCommand(CommandSender sender, Command cmd, String Labels, String[] args){
@@ -64,16 +59,17 @@ public class MapCommand implements CommandExecutor {
         player.sendMessage(sb.toString());
 
         //Sends the value of creator to the player, depending on what the value is in the config.
-        if(creator.equals("UNKNOWN") || creator == null){
+        assert creator != null;
+        if(creator.equals("UNKNOWN")){
             player.sendMessage(ChatColor.RED + "There is no set creator of this world");
         }else {
             Player uuidToOnlineCreator = Bukkit.getPlayer(UUID.fromString(creator));
 
             if (uuidToOnlineCreator == null) {
                 OfflinePlayer uuidToOfflineCreator = Bukkit.getOfflinePlayer(UUID.fromString(creator));
-                player.sendMessage(ChatColor.DARK_GREEN + uuidToOfflineCreator.getName().toString());
+                player.sendMessage(ChatColor.DARK_GREEN + uuidToOfflineCreator.getName());
             } else {
-                player.sendMessage(ChatColor.DARK_GREEN + uuidToOnlineCreator.getName().toString());
+                player.sendMessage(ChatColor.DARK_GREEN + uuidToOnlineCreator.getName());
             }
         }
 
