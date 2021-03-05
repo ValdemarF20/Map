@@ -20,10 +20,16 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven {
+        name = 'json'
+        url = 'https://mvnrepository.com/artifact/org.json'
+
+    }
 }
 
 dependencies {
     compileOnly 'com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT'
+    compile 'org.json:json:20200518'
 }
 
 processResources {
