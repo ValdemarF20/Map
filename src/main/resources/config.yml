@@ -1,5 +1,4 @@
 world:
   description:
-    - TestResource
-    - TestResourceTwo
-  creator: Valdemar
+    -
+  creator:
