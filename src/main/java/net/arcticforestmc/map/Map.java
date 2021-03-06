@@ -17,6 +17,8 @@ public final class Map extends JavaPlugin {
         yaml = new YamlFactory(JavaPlugin.getPlugin(Map.class)).setDefaultPathways();
         yaml.reload();
 
+        System.out.println("Test");
+
         getCommand("map").setExecutor(new MapCommand(yaml));
         getCommand("mapreload").setExecutor(new ConfigReload(yaml));
 
