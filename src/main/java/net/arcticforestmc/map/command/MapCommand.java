@@ -59,7 +59,7 @@ public class MapCommand implements CommandExecutor {
         //Sends the value of creator to the player, depending on what the value is in the config.
         assert creator != null;
         if(creator.equals("UNKNOWN")){
-            player.sendMessage(ChatColor.RED + "There is no set creator of this world");
+            player.sendMessage(ChatColor.RED + "There is no set creator of this map");
         }else {
             Player uuidToOnlineCreator = Bukkit.getPlayer(UUID.fromString(creator));
 
