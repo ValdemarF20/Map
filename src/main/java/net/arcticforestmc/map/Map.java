@@ -5,6 +5,7 @@ import net.arcticforestmc.map.command.MapCommand;
 import net.arcticforestmc.map.libs.Yaml;
 import net.arcticforestmc.map.libs.YamlFactory;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Map extends JavaPlugin {
@@ -12,11 +13,9 @@ public final class Map extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        System.out.println("Map plugin has been enabled!");
+        Bukkit.getLogger().info("Map plugin has been enabled!");
         yaml = new YamlFactory(JavaPlugin.getPlugin(Map.class)).setDefaultPathways();
         yaml.reload();
-
-        System.out.println("Test");
 
         getCommand("map").setExecutor(new MapCommand(yaml));
         getCommand("mapreload").setExecutor(new ConfigReload(yaml));

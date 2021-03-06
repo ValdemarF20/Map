@@ -36,9 +36,7 @@ public class MapCommand implements CommandExecutor {
         List<String> text = section.getStringList("description");
 
         //Makes sure that creator will not be null
-        if (creator == null) {
-            section.set("creator", "UNKNOWN");
-        }
+        if (creator == null)  section.set("creator", "UNKNOWN");
 
         //Makes sure that text will not be null
         if (text == null || text.size() == 0) {
